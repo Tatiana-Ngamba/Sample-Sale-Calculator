@@ -1,0 +1,123 @@
+// Using an alert to just display a welcome message to the customer
+alert(`"Welcome to KAI Collective Sample Sale 🧡🎊💛🎊 💛🧡!"`);
+// checking output
+console.log(alert);
+
+// Using an alert to just explain the web app
+alert(
+  `"Below is a sample sale calculator, please select the number of items you have with you depending on the colour 💛🧡."`
+);
+// checking output
+console.log(alert);
+
+// Using a While loop to ask for the user input
+let mood;
+while (true) {
+  mood = prompt("What is your mood today? 1(🙂) - 5 (🤩)");
+  console.log(mood);
+
+  if (mood === "5") {
+    console.log("🤩");
+    alert("Yasss Girl, Let's have some fun 🤩🎊");
+    // Exiting the loop when mood after 5 is inputted
+    break;
+  } else if (mood == "1") {
+    console.log("🙂");
+    alert("Yesss, I hope these new items cheer you up 🙂🎊");
+    // Exiting the loop when mood after 1 is inputted
+    break;
+  } else {
+    alert("Please type one of the options");
+  }
+}
+
+// Adding a button that a customer can click
+const startShoppingButton = document.getElementById("startShoppingButton");
+
+startShoppingButton.addEventListener("click", function () {
+  alert("Welcome to the sample sale! Let's start shopping 🛍️🛍️🛍️🛍️!");
+  // Add more code to initialize the shopping experience here.
+});
+
+// Defining the items prices per colour
+const itemPrices = {
+  Yellow: 10,
+  Red: 15.99,
+  Green: 25.99,
+  White: 30
+};
+console.log(itemPrices);
+
+// Defining an empty shopping bag ready for the staff to use.
+const shoppingbag = {
+  Yellow: 0,
+  Red: 0,
+  Green: 0,
+  White: 0
+};
+console.log(shoppingbag);
+
+// Defining a function to calculate the total of item and update the receipt
+function calculateTotal(colour) {
+  const quantityInput = document.getElementById(`${colour}Quantity`);
+  const quantity = parseInt(quantityInput.value, 10);
+
+  //   creatin a funtion for the shopping bag management
+  //   checking quantity greater than
+  if (quantity > 0) {
+    shoppingbag[colour] += quantity;
+    const total = shoppingbag[colour] * itemPrices[colour];
+
+    const receipt = document.getElementById("receipt");
+    receipt.innerHTML += `Colour: ${colour}, Quantity: ${quantity},Total: £${total.toFixed(
+      2
+    )}<br>`;
+
+    // Calculating and displaying the total price of items in a shopping bag based on the quantities of items of different colours and clear in  the value of a quantity Input field. using DOM, if and else
+
+    const totalPriceElement = document.getElementById("TotalPrice");
+    if (totalPriceElement) {
+      const totalPrice = Object.keys(shoppingbag).reduce(
+        (accumulated, colour) => {
+          return accumulated + shoppingbag[colour] * itemPrices[colour];
+        },
+        0
+      );
+      totalPriceElement.textContent = `Total: £${totalPrice.toFixed(2)}`;
+    } else {
+      console.error("sorry girl, the total Price was not found");
+    }
+
+    quantityInput.value = "";
+  }
+}
+
+// generating a receipt for the customer
+// function generateReceipt() {
+//   const customerName = document.getElementById("customerName").value;
+//   const totalPriceElement = document.getElementById("totalPrice").textContent;
+
+function generateReceipt() {
+  const customerName = document.getElementById("customerName").value;
+  const totalPriceElement = document.getElementById("TotalPrice").textContent;
+
+  //using constant and Concatenation to summarise what the customer purchased
+  const message = `Hey ${customerName} 🙂, you have bought ${getTotalQuantity()} items today ❤️‍🔥. And here is your ${totalPriceElement}. Thank you for shopping with us today and see you soon 💋💋.`;
+
+  // Creating a message box for the customer to receive the summary
+  const messageContainer = document.getElementById("message");
+  messageContainer.textContent = message;
+}
+
+// Function to calculate the total quantity of items in the shopping bag
+function getTotalQuantity() {
+  const totalQuantity = Object.keys(shoppingbag).reduce(
+    (accumulated, colour) => {
+      return accumulated + shoppingbag[colour];
+    },
+    0
+  );
+  return totalQuantity;
+}
+
+// // ================
